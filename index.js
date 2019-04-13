@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const sqllite = require('sqlite');
 const dbConnection = sqllite.open('banco.sqlite',{Promise});
 
+const port = process.env.PORT || 3000;
+
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended:true}));
@@ -75,7 +77,7 @@ app.post('/admin/vagas/nova', async(req, res) => {
     
     res.redirect('/admin/vagas');
 })
-//1:30
+
 app.get('/admin/vagas/editar/:id', async(req, res) => {
     const db = await dbConnection;
     const categorias = await db.all('select * from categorias;');
@@ -115,7 +117,7 @@ const init = async()=>{
 
 init();
 
-app.listen(3000, (err) => {
+app.listen(port, (err) => {
     if (err){
         console.log('Não foi possível inicial o servidor do Jobify')
     }else{
